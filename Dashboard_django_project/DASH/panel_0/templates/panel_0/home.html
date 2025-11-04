@@ -1,0 +1,116 @@
+<!-- panel_0/templates/panel_0/home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DASH | Inicio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --online: #28a745; --warning: #ffc107; --offline: #dc3545;
+            --card-bg: #ffffff; --text: #2c3e50;
+        }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: var(--text); }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+
+        header { text-align: center; padding: 30px 0; }
+        h1 { margin: 0; font-size: 2.2rem; color: var(--text); }
+        .subtitle { color: #777; font-size: 1rem; margin-top: 8px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 6px; background: var(--online);
+        }
+        .warning::before { background: var(--warning); }
+        .offline::before { background: var(--offline); }
+
+        .icon { font-size: 3rem; margin-bottom: 15px; }
+        .online .icon { color: var(--online); }
+        .warning .icon { color: var(--warning); }
+        .offline .icon { color: var(--offline); opacity: 0.6; }
+
+        .card h3 { margin: 10px 0; font-size: 1.3rem; }
+        .value { font-size: 2rem; font-weight: bold; margin: 10px 0; }
+        .unit { font-size: 1rem; color: #777; }
+        .status {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.85rem; padding: 4px 10px; border-radius: 20px;
+            margin-top: 10px;
+        }
+        .online .status { background: #d4edda; color: #155724; }
+        .warning .status { background: #fff3cd; color: #856404; }
+        .offline .status { background: #f8d7da; color: #721c24; }
+        .pulse { width: 8px; height: 8px; background: currentColor; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .footer { text-align: center; margin: 50px 0 20px; color: #777; font-size: 0.9rem; }
+        .no-devices { text-align: center; color: #999; font-size: 1.1rem; padding: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-microchip"></i> DASH IoT</h1>
+            <p class="subtitle">Selecciona un dispositivo para ver detalles</p>
+        </header>
+
+        <div class="grid">
+            {% for d in dispositivos %}
+            <a href="{% url 'device_detail' d.id %}" style="text-decoration: none; color: inherit;">
+                <div class="card {{ d.estado }}">
+                    <div class="icon"><i class="fas fa-{{ d.icono|default:'microchip' }}"></i></div>
+                    <h3>{{ d.nombre }}</h3>
+                    {% if d.valor1 is not None %}
+                    <div class="value">{{ d.valor1|floatformat:1 }}</div>
+                    <div class="unit">{{ d.unidad1|default:'' }}</div>
+                    {% endif %}
+                    <div class="status">
+                        {% if d.estado == 'online' %}<span class="pulse"></span>{% endif %}
+                        {{ d.get_estado_display }}
+                    </div>
+                    {% if d.ultimo_dato %}
+                    <small style="color:#999; display:block; margin-top:10px;">
+                        {{ d.ultimo_dato|time:"H:i" }}
+                    </small>
+                    {% endif %}
+                </div>
+            </a>
+            {% empty %}
+            <p class="no-devices">
+                <i class="fas fa-plug" style="font-size: 3rem; opacity: 0.3; margin-bottom: 15px; display: block;"></i>
+                No hay dispositivos configurados.<br>
+                <a href="/admin/panel_0/dispositivo/add/" style="color: #007bff;">Añadir uno en el Admin</a>
+            </p>
+            {% endfor %}
+        </div>
+
+        <div class="footer">
+            DASH IoT • <span id="clock"></span>
+        </div>
+    </div>
+
+    <script>
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString('es-ES');
+        }, 1000);
+    </script>
+</body>
+</html>
