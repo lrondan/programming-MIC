@@ -3,6 +3,12 @@
 {% block title %}Sobre Nosotros | DASH IoT{% endblock %}
 
 {% block content %}
+
+{% load static %}
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 bg-cover bg-center bg-no-repeat" 
+      style="background-image: url('{% static 'img/backgnd-about.jpg' %}');  background-attachment: fixed;">
+
 <div class="max-w-4xl mx-auto px-4 py-12">
     <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">
@@ -33,6 +39,20 @@
                         <h3 class="font-semibold">Luis A. Rojas Rondan</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Fundador & Desarrollador Principal</p>
                     </div>
+                    <div class="social-links">
+                        <a href="https://github.com/lrondan" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://linkedin.com/in/luis-rondan" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a href="https://www.facebook.com/luisalexis.rondan" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook"></i> Facebook
+                        </a>
+                        <a href="mailto:lrondan1126@gmail.com" target="_blank" title="Email">
+                            <i class="fas fa-envelope"></i> Email
+                        </a>
+                    </div>
                 </div>
                 <!-- Añade más devs -->
             </div>
@@ -52,4 +72,5 @@
         </a>
     </div>
 </div>
+</body>
 {% endblock %}

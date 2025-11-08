@@ -3,6 +3,10 @@
 {% block title %}Análisis Profundo | {{ dispositivo.nombre }}{% endblock %}
 
 {% block content %}
+
+{% load static %}
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 bg-cover bg-center bg-no-repeat" 
+      style="background-image: url('{% static 'img/backgnd-deep.png' %}');  background-attachment: fixed;">
 <div class="space-y-8">
     <div class="bg-white p-6 rounded-xl shadow-lg">
         <h1 class="text-2xl font-bold mb-4">Análisis Profundo: {{ dispositivo.nombre }}</h1>
@@ -86,4 +90,5 @@
         </section>
     </div>
 </div>
+</body>
 {% endblock %}

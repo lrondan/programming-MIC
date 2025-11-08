@@ -3,9 +3,13 @@
 {% load static %}
 {% load utils %}
 
-{% block title %}Inicio | DASH IoT{% endblock %}
+{% block title %}Inicio | NR DASH {% endblock %}
 
 {% block content %}
+{% load static %}
+<body class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-12 px-4" 
+      style="background-image: url('{% static 'img/backgnd-panel_0.png' %}');  background-attachment: fixed;">
+
 <div class="max-w-7xl mx-auto px-4 py-8">
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
